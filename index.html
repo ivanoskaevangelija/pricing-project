@@ -241,6 +241,24 @@
         </article>
         </div>
         <p style="background:#F8F5F0;padding:20px 24px;margin:24px 0 0;font-size:14px;line-height:1.65">A 30% deposit secures your date: kept if you cancel less than 14 days before the trip, refunded in full if we cancel because of bad weather. One price for everyone, no same-day deals at the marina. All prices include VAT.</p>
+        <form id="price-calculator" novalidate style="background:#F8F5F0;border:1px solid #D9D5D0;padding:clamp(20px,3vw,36px);margin-top:32px">
+          <h3 class="serif" style="font-size:clamp(2.5rem,5vw,4rem);line-height:1;margin:0 0 28px">Your price</h3>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div><label for="trip-date" style="display:block;font-size:16px;margin-bottom:10px">Trip date</label><input id="trip-date" name="trip-date" type="date" min="2027-04-01" max="2027-10-31" required style="display:block;min-width:0;width:100%;height:48px;padding:10px 12px;border:1px solid #D9D5D0;background:#F8F5F0;color:#504845;font:inherit"></div>
+            <div><label for="booking-time" style="display:block;font-size:16px;margin-bottom:10px">When you book</label><select id="booking-time" name="booking-time" style="display:block;min-width:0;width:100%;height:48px;padding:10px 12px;border:1px solid #D9D5D0;background:#F8F5F0;color:#504845;font:inherit"><option value="early">30 or more days before the trip</option><option value="standard">Less than 30 days before the trip</option></select></div>
+            <div><label for="guest-count" style="display:block;font-size:16px;margin-bottom:10px">Number of guests</label><input id="guest-count" name="guest-count" type="number" min="1" max="8" step="1" value="8" required inputmode="numeric" style="display:block;min-width:0;width:100%;height:48px;padding:10px 12px;border:1px solid #D9D5D0;background:#F8F5F0;color:#504845;font:inherit"></div>
+          </div>
+          <button class="button" type="submit" style="margin-top:24px;cursor:pointer">Show my price</button>
+          <p id="calculator-error" role="alert" style="font-size:16px;line-height:1.65;margin:20px 0 0" hidden></p>
+          <div id="calculator-result" aria-live="polite" aria-atomic="true" hidden style="border-top:1px solid #D9D5D0;margin-top:28px;padding-top:24px">
+            <p style="font-size:16px;margin:0 0 10px">Your price for the boat</p>
+            <p class="serif" id="boat-price" style="font-size:clamp(3rem,6vw,5rem);line-height:1;margin:0 0 24px"></p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" style="font-size:14px;line-height:1.65">
+              <p style="margin:0">Deposit to secure your date (30%)<br><span id="deposit-price"></span></p>
+              <p style="margin:0">About per guest<br><span id="guest-price"></span></p>
+            </div>
+          </div>
+        </form>
       </div>
     </section>
     </div>
@@ -285,6 +303,28 @@
         question.addEventListener('click',()=>setFaq(item,!item.classList.contains('is-open')));
         question.addEventListener('keydown',event=>{if(event.key==='Escape')setFaq(item,false)});
       });
+      const calculator=document.getElementById('price-calculator');
+      calculator.addEventListener('submit',event=>{
+        event.preventDefault();
+        const dateValue=document.getElementById('trip-date').value;
+        const guestValue=document.getElementById('guest-count').value.trim();
+        const guests=Number(guestValue);
+        const error=document.getElementById('calculator-error'),result=document.getElementById('calculator-result');
+        const invalid=message=>{error.textContent=message;error.hidden=false;result.hidden=true};
+        if(!dateValue||dateValue<'2027-04-01'||dateValue>'2027-10-31'){invalid('Please choose a date between 1 April and 31 October 2027');return}
+        if(!guestValue||!Number.isFinite(guests)||guests<=0){invalid('Please enter a number');return}
+        if(!Number.isInteger(guests)||guests>8){invalid('Please enter a whole number from 1 to 8');return}
+        const [year,month,day]=dateValue.split('-').map(Number);
+        const season=[4,5,10].includes(month)?0:[6,9].includes(month)?1:2;
+        const saturday=new Date(Date.UTC(year,month-1,day)).getUTCDay()===6?1:0;
+        const rates={early:[[450,450],[550,450],[850,550]],standard:[[650,550],[750,650],[950,850]]};
+        const price=rates[document.getElementById('booking-time').value][season][saturday];
+        const euro=value=>new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(value);
+        document.getElementById('boat-price').textContent=euro(price);
+        document.getElementById('deposit-price').textContent=euro(price*.3);
+        document.getElementById('guest-price').textContent=euro(price/guests);
+        error.hidden=true;result.hidden=false;
+      });
       const covers=Array.from(document.querySelectorAll('.cover'));
       covers.forEach((el,index)=>{el.style.zIndex=String(index+1)});
       const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -305,6 +345,7 @@
       }
       update();
       if(window.ResizeObserver)new ResizeObserver(update).observe(document.getElementById('faq'));
+      if(window.ResizeObserver)new ResizeObserver(update).observe(calculator);
       window.addEventListener('scroll',updateHeader,{passive:true});
       window.addEventListener('resize',update);
       window.addEventListener('load',update);
