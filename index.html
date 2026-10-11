@@ -156,6 +156,10 @@
       .site-header .nav-links a{min-height:48px;border:0}
       .site-header .nav-links a+a{border-top:1px solid var(--line)}
     }
+    /* Keep responsive photo sources fitted to their existing frames. */
+    .benefits-photo,.contact-photo{position:relative}
+    .benefits-photo img,.contact-photo img{position:absolute;inset:0}
+    .hero-photo img,.benefits-photo img,.tagline-band>img,.photo-break>img,.contact-photo img{width:100%;height:100%;object-fit:cover}
     /* Balanced headlines and comfortable reading widths. */
     h1,h2,h3,.faq-question{text-wrap:balance}
     p,.eyebrow,.step-label,th,td{text-wrap:pretty}
@@ -209,7 +213,7 @@
 
   <main id="top">
     <section class="hero cover" aria-labelledby="hero-title">
-      <div class="hero-photo"><img src="https://images.unsplash.com/photo-1617796525152-852420be3ab5?q=80&amp;w=2070&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D" alt="Sailing boat on open water"></div>
+      <div class="hero-photo"><img src="https://images.unsplash.com/photo-1617796525152-852420be3ab5?q=90&amp;w=1920&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D" srcset="https://images.unsplash.com/photo-1617796525152-852420be3ab5?q=90&amp;w=640&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 640w, https://images.unsplash.com/photo-1617796525152-852420be3ab5?q=90&amp;w=960&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 960w, https://images.unsplash.com/photo-1617796525152-852420be3ab5?q=90&amp;w=1440&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 1440w, https://images.unsplash.com/photo-1617796525152-852420be3ab5?q=90&amp;w=1920&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 1920w, https://images.unsplash.com/photo-1617796525152-852420be3ab5?q=90&amp;w=2880&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 2880w, https://images.unsplash.com/photo-1617796525152-852420be3ab5?q=90&amp;w=3840&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 3840w" sizes="(max-aspect-ratio: 3/2) 150svh, 100vw" decoding="async" fetchpriority="high" alt="Sailing boat on open water"></div>
       <div class="hero-notes"><p>Split,<br>Croatia</p><p class="hero-season">2027 season<br>now booking</p></div>
       <div class="hero-content">
         <h1 id="hero-title"><span>The sea unveils <em>fond</em></span><span><em>adventures.</em> We <em>guide</em></span><span><em>you</em> through them.</span></h1>
@@ -219,7 +223,7 @@
     </section>
 
     <section class="benefits cover" id="benefits" aria-label="Benefits">
-      <div class="benefits-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1653323800105-42f1a7bfab98?q=80&amp;w=387&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D" alt="A sailboat resting on clear coastal water"></div>
+      <div class="benefits-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1653323800105-42f1a7bfab98?q=90&amp;w=1600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D" srcset="https://images.unsplash.com/photo-1653323800105-42f1a7bfab98?q=90&amp;w=480&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 480w, https://images.unsplash.com/photo-1653323800105-42f1a7bfab98?q=90&amp;w=768&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 768w, https://images.unsplash.com/photo-1653323800105-42f1a7bfab98?q=90&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 1200w, https://images.unsplash.com/photo-1653323800105-42f1a7bfab98?q=90&amp;w=1600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 1600w, https://images.unsplash.com/photo-1653323800105-42f1a7bfab98?q=90&amp;w=2400&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 2400w" sizes="(max-width: 900px) 100vw, 50vw" decoding="async" alt="A sailboat resting on clear coastal water"></div>
       <div class="benefits-copy">
         <span class="eyebrow">A day, entirely yours</span>
         <div class="benefit-item" tabindex="0"><h2>The islands from the water</h2><p>A whole day of coastline, clear sea and open horizon, with only your own party aboard.</p></div>
@@ -229,7 +233,7 @@
     </section>
 
     <section class="tagline-band cover" aria-label="A day on the water begins with three quiet steps">
-      <img loading="lazy" src="https://images.unsplash.com/photo-1524722296347-8f15fbd74c63?q=80&amp;w=871&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D" alt="Sunlight across the sea">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1524722296347-8f15fbd74c63?q=90&amp;w=1920&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D" srcset="https://images.unsplash.com/photo-1524722296347-8f15fbd74c63?q=90&amp;w=640&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 640w, https://images.unsplash.com/photo-1524722296347-8f15fbd74c63?q=90&amp;w=960&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 960w, https://images.unsplash.com/photo-1524722296347-8f15fbd74c63?q=90&amp;w=1440&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 1440w, https://images.unsplash.com/photo-1524722296347-8f15fbd74c63?q=90&amp;w=1920&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 1920w, https://images.unsplash.com/photo-1524722296347-8f15fbd74c63?q=90&amp;w=2880&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 2880w, https://images.unsplash.com/photo-1524722296347-8f15fbd74c63?q=90&amp;w=3840&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D 3840w" sizes="(max-aspect-ratio: 3/2) 150svh, 100vw" decoding="async" alt="Sunlight across the sea">
       <h2>A day on the water begins with three quiet steps.</h2>
     </section>
 
@@ -298,7 +302,7 @@
     </div>
 
     <section class="photo-break cover" aria-label="Sea and islands">
-      <img loading="lazy" src="https://images.unsplash.com/photo-1519801584609-8ee5f072eddd?q=80&amp;w=870&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D" alt="Island coastline seen from the sea">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1519801584609-8ee5f072eddd?q=90&amp;w=1920&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D" srcset="https://images.unsplash.com/photo-1519801584609-8ee5f072eddd?q=90&amp;w=640&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 640w, https://images.unsplash.com/photo-1519801584609-8ee5f072eddd?q=90&amp;w=960&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 960w, https://images.unsplash.com/photo-1519801584609-8ee5f072eddd?q=90&amp;w=1440&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 1440w, https://images.unsplash.com/photo-1519801584609-8ee5f072eddd?q=90&amp;w=1920&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 1920w, https://images.unsplash.com/photo-1519801584609-8ee5f072eddd?q=90&amp;w=2880&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 2880w, https://images.unsplash.com/photo-1519801584609-8ee5f072eddd?q=90&amp;w=3840&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 3840w" sizes="(max-aspect-ratio: 3/2) 150svh, 100vw" decoding="async" alt="Island coastline seen from the sea">
     </section>
 
     <section class="faq cover" id="faq">
@@ -313,7 +317,7 @@
 
     <section class="contact cover" id="contact">
       <div class="contact-copy"><span class="eyebrow">Contact</span><h2>Say hello.</h2><a class="email" href="mailto:hello@tidewise.example">hello@tidewise.example</a></div>
-      <div class="contact-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=80&amp;w=387&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D" alt="Sailboat beside the Dalmatian coast"></div>
+      <div class="contact-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=1600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D" srcset="https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=480&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 480w, https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=768&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 768w, https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 1200w, https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=1600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 1600w, https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=2400&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 2400w" sizes="(max-width: 560px) 100vw, 50vw" decoding="async" alt="Sailboat beside the Dalmatian coast"></div>
     </section>
   </main>
   <footer><a class="wordmark" href="#top">TIDEWISE</a><p>© 2026 Tidewise – project, fictitious company</p></footer>
