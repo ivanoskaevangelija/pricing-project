@@ -83,8 +83,13 @@
     .faq{min-height:92svh;padding:clamp(90px,13vw,180px) 0;display:grid;grid-template-columns:.72fr 1.28fr;gap:clamp(45px,10vw,150px);align-items:start}
     .faq-list{border-top:1px solid var(--line)}
     .faq-item{padding:22px 0;border-bottom:1px solid var(--line)}
-    .faq-item h3{font-size:24px;line-height:1.2;margin:0 0 10px;font-weight:300}
-    .faq-item p{line-height:1.65;margin:0}
+    .faq-item h3{font-size:24px;line-height:1.2;margin:0;font-weight:300}
+    .faq-question{display:block;width:100%;min-height:44px;padding:0;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
+    .faq-question:focus-visible{outline:1px solid var(--line);outline-offset:4px}
+    .faq-answer{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .45s ease,opacity .35s ease}
+    .faq-answer>div{min-height:0;overflow:hidden}
+    .faq-item p{line-height:1.65;margin:0;padding-top:10px}
+    .faq-item.is-open .faq-answer{grid-template-rows:1fr;opacity:1}
     .contact{min-height:82svh;display:grid;grid-template-columns:1fr 1fr}
     .contact-copy{display:flex;flex-direction:column;justify-content:center;padding:clamp(50px,9vw,130px) clamp(28px,8vw,120px)}
     .contact h2{font-size:clamp(4rem,8vw,7rem);line-height:.9;letter-spacing:-.04em;margin:0 0 28px}
@@ -216,10 +221,10 @@
     <section class="faq cover" id="faq">
       <div><span class="eyebrow">The details</span><h2 class="section-heading">FAQs</h2></div>
       <div class="faq-list">
-        <article class="faq-item"><h3>How does the price work?</h3><p>Every boat-day has one price, set by the season and the day of the week, and it is lower when you book 30 or more days ahead. Saturdays, when most guests arrive or leave, are priced lower. The exact prices are in the Pricing section.</p></article>
-        <article class="faq-item"><h3>What does the deposit do?</h3><p>A 30% deposit secures your date. Cancel 14 or more days before the trip and it is returned; cancel later and it is kept. If we cancel because of bad weather, you are refunded in full.</p></article>
-        <article class="faq-item"><h3>Can I get a better price at the marina on the day?</h3><p>No. We keep one fair price for everyone, so there is no need to wait at the dock for a deal.</p></article>
-        <article class="faq-item"><h3>What is included?</h3><p>A private sailing boat with a skipper for the day trip to the islands, 9:00 to 17:00, for up to 8 guests. Fuel, cleaning and marina fees are included.</p></article>
+        <article class="faq-item"><h3><button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-1">How does the price work?</button></h3><div class="faq-answer" id="faq-answer-1" aria-hidden="true"><div><p>Every boat-day has one price, set by the season and the day of the week, and it is lower when you book 30 or more days ahead. Saturdays, when most guests arrive or leave, are priced lower. The exact prices are in the Pricing section.</p></div></div></article>
+        <article class="faq-item"><h3><button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-2">What does the deposit do?</button></h3><div class="faq-answer" id="faq-answer-2" aria-hidden="true"><div><p>A 30% deposit secures your date. Cancel 14 or more days before the trip and it is returned; cancel later and it is kept. If we cancel because of bad weather, you are refunded in full.</p></div></div></article>
+        <article class="faq-item"><h3><button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-3">Can I get a better price at the marina on the day?</button></h3><div class="faq-answer" id="faq-answer-3" aria-hidden="true"><div><p>No. We keep one fair price for everyone, so there is no need to wait at the dock for a deal.</p></div></div></article>
+        <article class="faq-item"><h3><button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-4">What is included?</button></h3><div class="faq-answer" id="faq-answer-4" aria-hidden="true"><div><p>A private sailing boat with a skipper for the day trip to the islands, 9:00 to 17:00, for up to 8 guests. Fuel, cleaning and marina fees are included.</p></div></div></article>
       </div>
     </section>
 
@@ -238,6 +243,17 @@
       menuToggle.addEventListener('click',()=>{const open=menuToggle.getAttribute('aria-expanded')!=='true';nav.classList.toggle('open',open);menuToggle.setAttribute('aria-expanded',String(open));menuToggle.setAttribute('aria-label',open?'Close menu':'Open menu')});
       nav.addEventListener('click',event=>{if(event.target.closest('a'))closeMenu()});
       document.addEventListener('keydown',event=>{if(event.key==='Escape')closeMenu()});
+      const faqItems=Array.from(document.querySelectorAll('.faq-item'));
+      const setFaq=(item,open)=>{item.classList.toggle('is-open',open);item.querySelector('button').setAttribute('aria-expanded',String(open));item.querySelector('.faq-answer').setAttribute('aria-hidden',String(!open))};
+      faqItems.forEach(item=>{
+        const question=item.querySelector('button');
+        item.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse')setFaq(item,true)});
+        item.addEventListener('pointerleave',event=>{if(event.pointerType==='mouse'&&!question.matches(':focus-visible'))setFaq(item,false)});
+        question.addEventListener('focus',()=>{if(question.matches(':focus-visible'))setFaq(item,true)});
+        question.addEventListener('blur',()=>setFaq(item,false));
+        question.addEventListener('click',()=>setFaq(item,!item.classList.contains('is-open')));
+        question.addEventListener('keydown',event=>{if(event.key==='Escape')setFaq(item,false)});
+      });
       const covers=Array.from(document.querySelectorAll('.cover'));
       covers.forEach((el,index)=>{el.style.zIndex=String(index+1)});
       const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -257,6 +273,7 @@
         });
       }
       update();
+      if(window.ResizeObserver)new ResizeObserver(update).observe(document.getElementById('faq'));
       window.addEventListener('scroll',updateHeader,{passive:true});
       window.addEventListener('resize',update);
       window.addEventListener('load',update);
