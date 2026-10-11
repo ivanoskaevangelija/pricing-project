@@ -64,10 +64,17 @@
     .how{min-height:88svh;padding:clamp(90px,13vw,180px) 0;display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(45px,10vw,150px);align-items:start}
     .section-heading{font-size:clamp(2.8rem,6vw,5rem);line-height:.94;letter-spacing:-.035em;margin:0}
     .steps{border-top:1px solid var(--line)}
-    .step{display:grid;grid-template-columns:90px 1fr;gap:22px;padding:27px 0;border-bottom:1px solid var(--line);align-items:start}
+    .step{position:relative;outline:none;display:grid;grid-template-columns:90px 1fr;gap:22px;padding:27px 0;border-bottom:1px solid var(--line);align-items:start}
     .step-number{font-family:"Cormorant Garamond",Georgia,serif;font-size:58px;line-height:.9;color:#8C8DA2;font-weight:300}
     .step-label{display:block;margin:4px 0 11px;color:var(--ink)}
     .step p{line-height:1.65;margin:0}
+    .step::after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:1px;background:var(--navy);transform:scaleX(0);transform-origin:left;transition:transform .65s cubic-bezier(.22,1,.36,1)}
+    .step-number{transition:color .45s ease,transform .55s cubic-bezier(.22,1,.36,1)}
+    .step>div{min-width:0;width:calc(100% - 10px);transition:transform .55s cubic-bezier(.22,1,.36,1)}
+    .step:is(:hover,:focus)::after{transform:scaleX(1)}
+    .step:is(:hover,:focus) .step-number{color:var(--navy);transform:translateY(-4px)}
+    .step:is(:hover,:focus)>div{transform:translateX(8px)}
+    @media(prefers-reduced-motion:reduce){.step:is(:hover,:focus) .step-number,.step:is(:hover,:focus)>div{transform:none}}
     .pricing{min-height:100svh;padding:clamp(100px,15vw,190px) 0;position:relative;overflow:hidden}
     .pricing-photo{position:absolute;inset:0}
     .pricing-photo:after{content:"";position:absolute;inset:0;background:rgba(248,245,240,.16)}
@@ -190,9 +197,9 @@
     <section class="how cover" id="how">
       <div class="section-wrap" style="width:auto;margin:0"><span class="eyebrow">Your day, simply arranged</span><h2 class="section-heading">Process</h2></div>
       <div class="steps">
-        <article class="step"><span class="step-number">01</span><div><span class="step-label">Choose your day</span><p>Pick a date in the app; the price follows the season and the weekday, and is lower when you book 30 or more days ahead.</p></div></article>
-        <article class="step"><span class="step-number">02</span><div><span class="step-label">Secure it</span><p>A 30% deposit confirms your date.</p></div></article>
-        <article class="step"><span class="step-number">03</span><div><span class="step-label">Set sail</span><p>Meet your skipper at the marina at 9:00 and return by 17:00.</p></div></article>
+        <article class="step" tabindex="0"><span class="step-number">01</span><div><span class="step-label">Choose your day</span><p>Pick a date in the app; the price follows the season and the weekday, and is lower when you book 30 or more days ahead.</p></div></article>
+        <article class="step" tabindex="0"><span class="step-number">02</span><div><span class="step-label">Secure it</span><p>A 30% deposit confirms your date.</p></div></article>
+        <article class="step" tabindex="0"><span class="step-number">03</span><div><span class="step-label">Set sail</span><p>Meet your skipper at the marina at 9:00 and return by 17:00.</p></div></article>
       </div>
     </section>
 
