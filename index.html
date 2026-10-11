@@ -194,6 +194,22 @@
       .site-header>.wordmark{font-size:18px;letter-spacing:.1em}
       .site-header>.header-action{padding-left:8px;padding-right:8px}
     }
+    /* Shared content edges match the floating header's inner padding. */
+    main[tabindex="-1"]:focus,section[tabindex="-1"]:focus{outline:none}
+    :root{--page-gutter:max(56px,calc((100vw - 1120px)/2 + 32px));--split-gutter:32px}
+    .hero-content{width:calc(100% - 2 * var(--page-gutter))}
+    .hero-notes{padding-left:var(--page-gutter);padding-right:var(--page-gutter)}
+    .tagline-band h2{width:calc(100% - 2 * var(--page-gutter))}
+    .how,.faq{width:100%;max-width:none;margin-left:0;margin-right:0;padding-left:var(--page-gutter);padding-right:var(--page-gutter)}
+    #pricing-cards{width:calc(100% - 2 * var(--page-gutter))}
+    .benefits-copy{padding-left:var(--split-gutter);padding-right:var(--page-gutter)}
+    .contact-copy{padding-left:var(--page-gutter);padding-right:var(--split-gutter)}
+    footer{padding-left:var(--page-gutter);padding-right:var(--page-gutter)}
+    @media(max-width:900px){.benefits-copy{padding-left:var(--page-gutter)}}
+    @media(max-width:560px){
+      :root{--page-gutter:22px;--split-gutter:22px}
+      .contact-copy{padding-right:var(--page-gutter)}
+    }
     @media(prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
       *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
