@@ -194,6 +194,17 @@
       .site-header>.wordmark{font-size:18px;letter-spacing:.1em}
       .site-header>.header-action{padding-left:8px;padding-right:8px}
     }
+    /* A quiet, line-only inquiry form. */
+    .inquiry-form{display:grid;gap:24px}
+    .inquiry-field{display:grid;gap:8px;min-width:0}
+    .inquiry-field label{font-size:16px;line-height:1.5;color:var(--text)}
+    .inquiry-field label span{font-size:14px}
+    .inquiry-field input,.inquiry-field textarea{display:block;width:100%;min-width:0;min-height:48px;padding:10px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--text);font:inherit;line-height:1.6;box-shadow:none;transition:border-color .2s ease}
+    .inquiry-field textarea{min-height:112px;resize:vertical}
+    .inquiry-field input:focus,.inquiry-field textarea:focus{outline:none;border-bottom-color:var(--ink)}
+    .inquiry-form .button{justify-self:start}
+    .inquiry-form .form-note{font-size:14px;line-height:1.5;margin:-12px 0 0}
+    .contact-copy>.email{margin-top:40px}
     /* Shared content edges match the floating header's inner padding. */
     main[tabindex="-1"]:focus,section[tabindex="-1"]:focus,#price-calculator[tabindex="-1"]:focus{outline:none}
     :root{--page-gutter:max(56px,calc((100vw - 1120px)/2 + 32px));--split-gutter:32px}
@@ -333,7 +344,18 @@
     </section>
 
     <section class="contact cover" id="contact">
-      <div class="contact-copy"><span class="eyebrow">Contact</span><h2>Say hello.</h2><a class="email" href="mailto:hello@tidewise.example">hello@tidewise.example</a></div>
+      <div class="contact-copy">
+        <span class="eyebrow">Contact</span><h2 id="inquiry-heading">Say hello.</h2>
+        <form class="inquiry-form" id="inquiry-form" aria-labelledby="inquiry-heading" action="mailto:hello@tidewise.example" method="post" enctype="text/plain">
+          <div class="inquiry-field"><label for="inquiry-name">Name</label><input id="inquiry-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="inquiry-field"><label for="inquiry-email">Email</label><input id="inquiry-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="inquiry-field"><label for="inquiry-reference">Booking reference <span>(optional)</span></label><input id="inquiry-reference" name="booking-reference" type="text"></div>
+          <div class="inquiry-field"><label for="inquiry-message">Message</label><textarea id="inquiry-message" name="message" rows="4" required></textarea></div>
+          <button class="button" type="submit">Send Inquiry</button>
+          <p class="form-note">Opens your email app.</p>
+        </form>
+        <a class="email" href="mailto:hello@tidewise.example">hello@tidewise.example</a>
+      </div>
       <div class="contact-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=1600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D" srcset="https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=480&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 480w, https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=768&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 768w, https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 1200w, https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=1600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 1600w, https://images.unsplash.com/photo-1524722228493-c418381c4cac?q=90&amp;w=2400&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxM2A3fDA%3D 2400w" sizes="(max-width: 560px) 100vw, 50vw" decoding="async" alt="Sailboat beside the Dalmatian coast"></div>
     </section>
   </main>
@@ -357,6 +379,14 @@
         question.addEventListener('blur',()=>setFaq(item,false));
         question.addEventListener('click',()=>setFaq(item,!item.classList.contains('is-open')));
         question.addEventListener('keydown',event=>{if(event.key==='Escape')setFaq(item,false)});
+      });
+      const inquiryForm=document.getElementById('inquiry-form');
+      inquiryForm.addEventListener('submit',event=>{
+        event.preventDefault();
+        const details=new FormData(inquiryForm);
+        const reference=String(details.get('booking-reference')||'').trim();
+        const body=['Name: '+String(details.get('name')).trim(),'Email: '+String(details.get('email')).trim(),...(reference?['Booking reference: '+reference]:[]),'',String(details.get('message')).trim()].join('\n');
+        window.location.href='mailto:hello@tidewise.example?subject='+encodeURIComponent('Tidewise inquiry')+'&body='+encodeURIComponent(body);
       });
       const calculator=document.getElementById('price-calculator');
       const bookingSelect=document.getElementById('booking-time'),bookingChoices=Array.from(document.querySelectorAll('input[name="booking-choice"]'));
