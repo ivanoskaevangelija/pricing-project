@@ -384,6 +384,32 @@
           el.style.setProperty('--sticky-top',Math.min(0,vh-h)+'px');
         });
       }
+      function scrollToSection(hash,behavior){
+        const target=document.getElementById(hash.slice(1));
+        if(!target)return;
+        closeMenu();
+        update();
+        const positions=covers.map(el=>[el,['position','top'].map(name=>[name,el.style.getPropertyValue(name),el.style.getPropertyPriority(name)])]);
+        positions.forEach(([el])=>{el.style.setProperty('position','relative','important');el.style.setProperty('top','auto','important')});
+        const naturalTop=target.getBoundingClientRect().top+window.scrollY;
+        positions.forEach(([el,properties])=>properties.forEach(([name,value,priority])=>{if(value)el.style.setProperty(name,value,priority);else el.style.removeProperty(name)}));
+        const clearance=header.offsetHeight+(window.innerWidth<=560?8:16)+16;
+        const top=hash==='#top'?0:Math.max(0,naturalTop-clearance);
+        window.scrollTo({top,behavior:behavior||(reduced.matches?'instant':'smooth')});
+        if(!target.hasAttribute('tabindex'))target.setAttribute('tabindex','-1');
+        target.focus({preventScroll:true});
+      }
+      document.addEventListener('click',event=>{
+        const link=event.target.closest('a[href^="#"]');
+        if(!link||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+        const hash=link.getAttribute('href');
+        if(!document.getElementById(hash.slice(1)))return;
+        event.preventDefault();
+        if(window.location.hash!==hash)history.pushState(null,'',hash);
+        scrollToSection(hash);
+      });
+      window.addEventListener('hashchange',()=>scrollToSection(window.location.hash||'#top','instant'));
+      document.fonts.ready.then(()=>{update();if(window.location.hash)scrollToSection(window.location.hash,'instant')});
       update();
       if(window.ResizeObserver)new ResizeObserver(update).observe(document.getElementById('faq'));
       if(window.ResizeObserver)new ResizeObserver(update).observe(calculator);
