@@ -27,7 +27,7 @@
     .wordmark{font-size:26px;letter-spacing:.19em;text-decoration:none;white-space:nowrap}
     .header-action{justify-self:end}
     .button{min-height:48px;display:inline-flex;align-items:center;justify-content:center;padding:0 25px;background:var(--navy);color:#fff;text-decoration:none;border:1px solid var(--navy);transition:background .2s,color .2s}
-    .button:hover,.button:focus-visible{background:transparent;color:var(--navy)}
+    .button:hover,.button:focus-visible{background:transparent;color:var(--navy);border-color:var(--line)}
     .menu-toggle{display:none}
     .cover{position:sticky;top:var(--sticky-top,0px);isolation:isolate;background:var(--paper)}
     .hero{height:100svh;min-height:650px;overflow:hidden;display:grid;place-items:center;text-align:center;position:relative;color:var(--ink)}
@@ -36,7 +36,8 @@
     .hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(248,245,240,.18),rgba(248,245,240,.33))}
     .hero-content{width:min(1100px,calc(100% - 36px));padding:120px 0 70px}
     .hero h1{font-size:clamp(3rem,8vw,7rem);line-height:.91;letter-spacing:-.045em;margin:0 auto 26px;max-width:1080px}
-    .hero h1>span,.hero-copy>span{display:block;white-space:nowrap}
+    .hero h1>span{display:block;white-space:nowrap}
+    .hero-copy>span{display:block}
     h1 em,h2 em{font-style:italic}
     .hero-copy{max-width:680px;margin:0 auto 30px;line-height:1.65}
     .hero .button{margin-top:4px}
@@ -160,7 +161,7 @@
       <div class="hero-photo"><img src="https://images.unsplash.com/photo-1617796525152-852420be3ab5?q=80&amp;w=2070&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D" alt="Sailing boat on open water"></div>
       <div class="hero-content">
         <h1 id="hero-title"><span>The sea unveils <em>fond</em></span><span><em>adventures.</em> We <em>guide</em></span><span><em>you</em> through them.</span></h1>
-        <p class="hero-copy"><span>A private sailing boat,</span><span>a skipper at the helm, and a day among</span><span>the islands that belongs entirely to you.</span></p>
+        <p class="hero-copy"><span>A private sailing boat, a skipper at the helm,</span><span>and a day among the islands that belongs entirely to you.</span></p>
         <a class="button" href="#pricing">Book Now</a>
       </div>
     </section>
