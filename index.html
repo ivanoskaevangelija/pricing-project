@@ -195,7 +195,7 @@
       .site-header>.header-action{padding-left:8px;padding-right:8px}
     }
     /* Shared content edges match the floating header's inner padding. */
-    main[tabindex="-1"]:focus,section[tabindex="-1"]:focus{outline:none}
+    main[tabindex="-1"]:focus,section[tabindex="-1"]:focus,#price-calculator[tabindex="-1"]:focus{outline:none}
     :root{--page-gutter:max(56px,calc((100vw - 1120px)/2 + 32px));--split-gutter:32px}
     .hero-content{width:calc(100% - 2 * var(--page-gutter))}
     .hero-notes{padding-left:clamp(18px,4vw,54px);padding-right:clamp(18px,4vw,54px)}
@@ -279,7 +279,7 @@
 <tr style="border-bottom:1px solid #D9D5D0"><th scope="row" style="width:34%;padding:20px 8px 20px 0;text-align:left;vertical-align:top;font-size:16px;font-weight:400">Peak season<span style="display:block;margin-top:6px;font-size:14px;line-height:1.5">July, August</span></th><td style="width:33%;padding:20px 4px;vertical-align:top;text-align:center"><span class="serif" style="display:block;font-size:clamp(1.75rem,3vw,2.75rem);line-height:1.1">€850</span><span style="display:block;margin-top:6px;font-size:14px;line-height:1.5"><span class="price-unit-part">per boat</span> <span class="price-unit-part">per day</span></span></td><td style="width:33%;padding:20px 4px;vertical-align:top;text-align:center"><span class="serif" style="display:block;font-size:clamp(1.75rem,3vw,2.75rem);line-height:1.1">€550</span><span style="display:block;margin-top:6px;font-size:14px;line-height:1.5"><span class="price-unit-part">per boat</span> <span class="price-unit-part">per day</span></span></td></tr></tbody>
           </table>
           <p style="font-size:16px;line-height:1.65;margin:26px 0">A private boat with a skipper for the 9:00–17:00 island day trip, up to 8 guests; fuel, cleaning and marina fees included.</p>
-          <a class="button" href="#contact" style="margin-top:auto;align-self:flex-start">Choose Early</a>
+          <a class="button" href="#price-calculator" data-booking="early" style="margin-top:auto;align-self:flex-start">Choose Early</a>
         </article>
         <article class="flex flex-col" aria-labelledby="offer-standard" style="background:#F8F5F0;border:1px solid #D9D5D0;padding:clamp(20px,3vw,36px)">
           <div style="min-height:22px;margin-bottom:12px;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#1B1C39"><span aria-hidden="true">&nbsp;</span></div>
@@ -292,7 +292,7 @@
 <tr style="border-bottom:1px solid #D9D5D0"><th scope="row" style="width:34%;padding:20px 8px 20px 0;text-align:left;vertical-align:top;font-size:16px;font-weight:400">Peak season<span style="display:block;margin-top:6px;font-size:14px;line-height:1.5">July, August</span></th><td style="width:33%;padding:20px 4px;vertical-align:top;text-align:center"><span class="serif" style="display:block;font-size:clamp(1.75rem,3vw,2.75rem);line-height:1.1">€950</span><span style="display:block;margin-top:6px;font-size:14px;line-height:1.5"><span class="price-unit-part">per boat</span> <span class="price-unit-part">per day</span></span></td><td style="width:33%;padding:20px 4px;vertical-align:top;text-align:center"><span class="serif" style="display:block;font-size:clamp(1.75rem,3vw,2.75rem);line-height:1.1">€850</span><span style="display:block;margin-top:6px;font-size:14px;line-height:1.5"><span class="price-unit-part">per boat</span> <span class="price-unit-part">per day</span></span></td></tr></tbody>
           </table>
           <p style="font-size:16px;line-height:1.65;margin:26px 0">A private boat with a skipper for the 9:00–17:00 island day trip, up to 8 guests; fuel, cleaning and marina fees included.</p>
-          <a class="button" href="#contact" style="margin-top:auto;align-self:flex-start">Choose Standard</a>
+          <a class="button" href="#price-calculator" data-booking="standard" style="margin-top:auto;align-self:flex-start">Choose Standard</a>
         </article>
         </div>
         <p style="background:#F8F5F0;padding:20px 24px;margin:24px 0 0;font-size:14px;line-height:1.65">A 30% deposit secures your date: kept if you cancel less than 14 days before the trip, refunded in full if we cancel because of bad weather. One price for everyone, no same-day deals at the marina. All prices include VAT.</p>
@@ -360,8 +360,9 @@
       });
       const calculator=document.getElementById('price-calculator');
       const bookingSelect=document.getElementById('booking-time'),bookingChoices=Array.from(document.querySelectorAll('input[name="booking-choice"]'));
-      bookingChoices.forEach(choice=>choice.addEventListener('change',()=>{if(choice.checked)bookingSelect.value=choice.value}));
-      bookingSelect.addEventListener('change',()=>bookingChoices.forEach(choice=>{choice.checked=choice.value===bookingSelect.value}));
+      function setBooking(value){bookingSelect.value=value;bookingChoices.forEach(choice=>{choice.checked=choice.value===value})}
+      bookingChoices.forEach(choice=>choice.addEventListener('change',()=>{if(choice.checked)setBooking(choice.value)}));
+      bookingSelect.addEventListener('change',()=>setBooking(bookingSelect.value));
       calculator.addEventListener('submit',event=>{
         event.preventDefault();
         const dateValue=document.getElementById('trip-date').value;
@@ -409,9 +410,11 @@
         const positions=covers.map(el=>[el,['position','top'].map(name=>[name,el.style.getPropertyValue(name),el.style.getPropertyPriority(name)])]);
         positions.forEach(([el])=>{el.style.setProperty('position','relative','important');el.style.setProperty('top','auto','important')});
         const naturalTop=target.getBoundingClientRect().top+window.scrollY;
+        const containingCover=target.closest('.cover');
+        const stickyTargetTop=containingCover&&!reduced.matches?parseFloat(containingCover.style.getPropertyValue('--sticky-top'))+naturalTop-(containingCover.getBoundingClientRect().top+window.scrollY):0;
         positions.forEach(([el,properties])=>properties.forEach(([name,value,priority])=>{if(value)el.style.setProperty(name,value,priority);else el.style.removeProperty(name)}));
         const clearance=header.offsetHeight+(window.innerWidth<=560?8:16)+16;
-        const top=hash==='#top'?0:Math.max(0,naturalTop-clearance);
+        const top=hash==='#top'?0:Math.max(0,naturalTop-Math.max(clearance,stickyTargetTop));
         window.scrollTo({top,behavior:behavior||(reduced.matches?'instant':'smooth')});
         if(!target.hasAttribute('tabindex'))target.setAttribute('tabindex','-1');
         target.focus({preventScroll:true});
@@ -422,6 +425,7 @@
         const hash=link.getAttribute('href');
         if(!document.getElementById(hash.slice(1)))return;
         event.preventDefault();
+        if(link.dataset.booking)setBooking(link.dataset.booking);
         if(window.location.hash!==hash)history.pushState(null,'',hash);
         scrollToSection(hash);
       });
