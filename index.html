@@ -115,18 +115,15 @@
     .nav-links a{font-size:14px;letter-spacing:.1em;min-height:44px}
     .site-header>.wordmark{grid-column:2;grid-row:1;justify-self:center}
     .site-header>.header-action{grid-column:3;grid-row:1;white-space:nowrap}
-    .menu-toggle{display:none;grid-column:1;grid-row:1;justify-self:start;align-items:center;min-height:44px;padding:0;border:0;background:transparent;color:var(--ink);font:500 14px Inter,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
-    .menu-icon{display:none;flex-direction:column;gap:5px}
+    .menu-toggle{display:inline-flex;min-width:44px;grid-column:1;grid-row:1;justify-self:start;align-items:center;min-height:44px;padding:0;border:0;background:transparent;color:var(--ink);font:500 14px Inter,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+    .menu-toggle .menu-word{display:none}
+    .menu-icon{display:flex;flex-direction:column;gap:5px}
     .menu-icon i{display:block;width:21px;height:1px;background:currentColor}
     .site-header.scrolled .menu-toggle{display:inline-flex}
-    .site-header.scrolled .nav-links{display:none;position:absolute;grid-column:auto;grid-row:auto;top:100%;left:0;width:min(300px,100%);padding:12px 24px 20px;background:var(--paper);border:0;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0}
-    .site-header.scrolled .nav-links.open{display:flex}
-    .site-header.scrolled .nav-links a{min-height:48px;border:0}
-    .site-header.scrolled .nav-links a+a{border-top:1px solid var(--line)}
-    @media(min-width:561px) and (max-width:1239px){
-      .site-header:not(.scrolled) .nav-links{grid-column:1/-1;grid-row:2;justify-content:flex-start;gap:clamp(16px,3vw,32px)}
-      .site-header:not(.scrolled){row-gap:4px;padding-top:12px;padding-bottom:8px}
-    }
+    .site-header .nav-links{display:none;position:absolute;grid-column:auto;grid-row:auto;top:100%;left:0;width:min(300px,100%);padding:12px 24px 20px;background:var(--paper);border:0;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0}
+    .site-header .nav-links.open{display:flex}
+    .site-header .nav-links a{min-height:48px;border:0}
+    .site-header .nav-links a+a{border-top:1px solid var(--line)}
     @media(max-width:560px){
       .site-header,.site-header.scrolled{grid-template-columns:44px minmax(0,1fr) auto;column-gap:8px;width:calc(100% - 16px);top:8px;padding:8px 14px;min-height:64px}
       .site-header:not(.scrolled){width:100%;top:0;padding-left:18px;padding-right:18px}
