@@ -198,7 +198,8 @@
     main[tabindex="-1"]:focus,section[tabindex="-1"]:focus{outline:none}
     :root{--page-gutter:max(56px,calc((100vw - 1120px)/2 + 32px));--split-gutter:32px}
     .hero-content{width:calc(100% - 2 * var(--page-gutter))}
-    .hero-notes{padding-left:var(--page-gutter);padding-right:var(--page-gutter)}
+    .hero-notes{padding-left:clamp(18px,4vw,54px);padding-right:clamp(18px,4vw,54px)}
+    @media(max-width:560px){.hero-notes{padding-left:18px;padding-right:18px}}
     .tagline-band h2{width:calc(100% - 2 * var(--page-gutter))}
     .how,.faq{width:100%;max-width:none;margin-left:0;margin-right:0;padding-left:var(--page-gutter);padding-right:var(--page-gutter)}
     #pricing-cards{width:calc(100% - 2 * var(--page-gutter))}
