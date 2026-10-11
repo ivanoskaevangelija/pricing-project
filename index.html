@@ -34,7 +34,10 @@
     .hero-photo{position:absolute;inset:0;z-index:-2}
     .hero-photo img{object-position:center 53%}
     .hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(248,245,240,.18),rgba(248,245,240,.33))}
-    .hero-content{width:min(1100px,calc(100% - 36px));padding:120px 0 70px}
+    .hero-content{width:min(1100px,calc(100% - 36px));padding:120px 0 70px;transform:translateY(40px)}
+    .hero-notes{position:absolute;inset:calc(50% + 40px) 0 auto;transform:translateY(-50%);display:flex;justify-content:space-between;padding:0 clamp(24px,4vw,54px);text-align:left;pointer-events:none}
+    .hero-notes p{margin:0;font-size:16px;line-height:1.65;color:var(--text)}
+    @media(max-width:900px){.hero-notes{top:auto;bottom:28px;transform:none}.hero-content{transform:translateY(24px)}}
     .hero h1{font-size:clamp(3rem,8vw,7rem);line-height:.91;letter-spacing:-.045em;margin:0 auto 26px;max-width:1080px}
     .hero h1>span{display:block;white-space:nowrap}
     .hero-copy>span{display:block}
@@ -159,6 +162,7 @@
   <main id="top">
     <section class="hero cover" aria-labelledby="hero-title">
       <div class="hero-photo"><img src="https://images.unsplash.com/photo-1617796525152-852420be3ab5?q=80&amp;w=2070&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=NHwxMjA3fDA%3D" alt="Sailing boat on open water"></div>
+      <div class="hero-notes"><p>Split,<br>Croatia</p><p>2027 season<br>now booking</p></div>
       <div class="hero-content">
         <h1 id="hero-title"><span>The sea unveils <em>fond</em></span><span><em>adventures.</em> We <em>guide</em></span><span><em>you</em> through them.</span></h1>
         <p class="hero-copy"><span>A private sailing boat, a skipper at the helm,</span><span>and a day among the islands that belongs entirely to you.</span></p>
