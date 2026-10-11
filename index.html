@@ -30,13 +30,14 @@
     .button:hover,.button:focus-visible{background:var(--paper);color:var(--navy);border:1px solid var(--line)}
     .menu-toggle{display:none}
     .cover{position:sticky;top:var(--sticky-top,0px);isolation:isolate;background:var(--paper)}
-    .hero{height:100svh;min-height:650px;overflow:hidden;display:grid;place-items:center;text-align:center;position:relative;color:var(--ink)}
+    .hero{height:100svh;min-height:650px;overflow:hidden;display:grid;place-items:center;text-align:center;position:sticky;color:var(--ink)}
     .hero-photo{position:absolute;inset:0;z-index:-2}
-    .hero-photo img{object-position:center 53%}
+    .hero-photo img{height:100%;object-fit:cover;object-position:center 53%}
     .hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(248,245,240,.18),rgba(248,245,240,.33))}
     .hero-content{width:min(1100px,calc(100% - 36px));padding:120px 0 70px;transform:translateY(40px)}
     .hero-notes{position:absolute;inset:calc(50% + 40px) 0 auto;transform:translateY(-50%);display:flex;justify-content:space-between;padding:0 clamp(24px,4vw,54px);text-align:left;pointer-events:none}
     .hero-notes p{margin:0;font-size:16px;line-height:1.65;color:var(--text)}
+    .hero-notes p:first-child{color:var(--navy)}
     .hero-notes .hero-season{color:#fff}
     @media(max-width:900px){.hero-notes{top:auto;bottom:28px;transform:none}.hero-content{transform:translateY(24px)}}
     .hero h1{font-size:clamp(3rem,8vw,7rem);line-height:.91;letter-spacing:-.045em;margin:0 auto 26px;max-width:1080px}
@@ -231,6 +232,7 @@
       nav.addEventListener('click',event=>{if(event.target.closest('a'))closeMenu()});
       document.addEventListener('keydown',event=>{if(event.key==='Escape')closeMenu()});
       const covers=Array.from(document.querySelectorAll('.cover'));
+      covers.forEach((el,index)=>{el.style.zIndex=String(index+1)});
       const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
       function updateHeader(){
         const scrolled=window.scrollY>40;
