@@ -119,6 +119,38 @@
       .contact-photo{min-height:430px;height:65svh}
       footer{min-height:180px;flex-direction:column;align-items:flex-start;justify-content:center;padding:36px 24px}
     }
+
+    /* Responsive navigation refinements */
+    .site-header{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:clamp(28px,3.4vw,60px)}
+    .site-header.scrolled{top:16px;width:min(calc(100% - 48px),1120px);padding-left:clamp(22px,3vw,40px);padding-right:clamp(22px,3vw,40px)}
+    .nav-links{grid-column:1;grid-row:1;min-width:0;gap:clamp(12px,1.35vw,22px);white-space:nowrap}
+    .nav-links a{font-size:13px;letter-spacing:.13em}
+    .site-header>.wordmark{grid-column:2;grid-row:1;justify-self:center}
+    .site-header>.header-action{grid-column:3;grid-row:1}
+    .menu-toggle{display:none;grid-column:1;grid-row:1;justify-self:start;align-items:center;gap:10px;min-height:44px;padding:0;border:0;background:transparent;color:var(--ink);font:500 14px Inter,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+    .menu-icon{display:none;flex-direction:column;gap:5px}
+    .menu-icon i{display:block;width:21px;height:1px;background:currentColor}
+    @media(max-width:1279px){
+      .site-header{grid-template-columns:1fr auto 1fr;column-gap:0}
+      .site-header.scrolled{width:min(calc(100% - 32px),920px);top:12px;padding-left:24px;padding-right:24px}
+      .nav-links{display:none;position:absolute;top:100%;left:0;width:100%;padding:8px 24px 18px;background:var(--paper);border-top:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;white-space:normal}
+      .nav-links.open{display:flex}
+      .nav-links a{min-height:48px;border-bottom:1px solid var(--line);font-size:13px}
+      .nav-links a:last-child{border-bottom:0}
+      .menu-toggle{display:inline-flex}
+      .site-header>.wordmark{grid-column:2}
+      .site-header>.header-action{grid-column:3}
+    }
+    @media(max-width:560px){
+      .site-header,.site-header.scrolled{grid-template-columns:1fr auto 1fr;width:calc(100% - 16px);top:8px;padding:8px 14px}
+      .site-header:not(.scrolled){width:100%;padding-left:18px;padding-right:18px}
+      .site-header>.wordmark{font-size:21px}
+      .header-action{font-size:12px;padding:0 13px;min-height:44px}
+      .menu-toggle{min-width:44px;justify-content:flex-start}
+      .menu-toggle .menu-word{display:none}
+      .menu-icon{display:flex}
+      .nav-links{padding-left:18px;padding-right:18px}
+    }
     @media(prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
       *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
@@ -128,8 +160,9 @@
 </head>
 <body>
   <header class="site-header" id="site-header">
-    <nav class="nav-links" aria-label="Main navigation">
-      <a href="#benefits">Benefits</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="main-navigation"><span class="menu-word">Menu</span><span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span></button>
+    <nav class="nav-links" id="main-navigation" aria-label="Main navigation">
+      <a href="#benefits">Benefits</a><a href="#how">Process</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
     </nav>
     <a class="wordmark" href="#top" aria-label="Tidewise home">TIDEWISE</a>
     <a class="button header-action" href="#pricing">Book Now</a>
@@ -161,7 +194,7 @@
     </section>
 
     <section class="how cover" id="how">
-      <div class="section-wrap" style="width:auto;margin:0"><span class="eyebrow">Your day, simply arranged</span><h2 class="section-heading">How it<br>works</h2></div>
+      <div class="section-wrap" style="width:auto;margin:0"><span class="eyebrow">Your day, simply arranged</span><h2 class="section-heading">Process</h2></div>
       <div class="steps">
         <article class="step"><span class="step-number">01</span><div><span class="step-label">Choose your day</span><p>Pick a date in the app; the price follows the season and the weekday, and is lower when you book 30 or more days ahead.</p></div></article>
         <article class="step"><span class="step-number">02</span><div><span class="step-label">Secure it</span><p>A 30% deposit confirms your date.</p></div></article>
@@ -198,6 +231,12 @@
   <script>
     (function(){
       const header=document.getElementById('site-header');
+      const menuToggle=document.getElementById('menu-toggle');
+      const nav=document.getElementById('main-navigation');
+      const closeMenu=()=>{nav.classList.remove('open');menuToggle.setAttribute('aria-expanded','false');menuToggle.setAttribute('aria-label','Open menu')};
+      menuToggle.addEventListener('click',()=>{const open=menuToggle.getAttribute('aria-expanded')!=='true';nav.classList.toggle('open',open);menuToggle.setAttribute('aria-expanded',String(open));menuToggle.setAttribute('aria-label',open?'Close menu':'Open menu')});
+      nav.addEventListener('click',event=>{if(event.target.closest('a'))closeMenu()});
+      document.addEventListener('keydown',event=>{if(event.key==='Escape')closeMenu()});
       const covers=Array.from(document.querySelectorAll('.cover'));
       const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
       function update(){
